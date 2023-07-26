@@ -102,7 +102,6 @@ const App = (): ReactElement => {
 		}
 
 		if (!paymentSubscription) {
-			// @ts-ignore
 			paymentSubscription = ldk.onEvent(
 				EEventTypes.channel_manager_payment_claimed,
 				(res: TChannelManagerClaim) => alert(`Received ${res.amount_sat} sats`),
@@ -132,7 +131,6 @@ const App = (): ReactElement => {
 		}
 
 		if (!onChannelSubscription) {
-			// @ts-ignore
 			onChannelSubscription = ldk.onEvent(
 				EEventTypes.new_channel,
 				(res: TChannelUpdate) =>

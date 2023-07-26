@@ -52,6 +52,8 @@ import {
 	TFeeUpdateReq,
 	TLdkSpendableOutputs,
 	TReconstructAndSpendOutputsReq,
+	TChannelManagerChannelPending,
+	TChannelManagerChannelReady,
 } from './utils/types';
 import {
 	appendPath,
@@ -185,6 +187,14 @@ class LightningManager {
 		ldk.onEvent(
 			EEventTypes.channel_manager_spendable_outputs,
 			this.onChannelManagerSpendableOutputs.bind(this),
+		);
+		ldk.onEvent(
+			EEventTypes.channel_manager_channel_pending,
+			this.onChannelManagerChannelPending.bind(this),
+		);
+		ldk.onEvent(
+			EEventTypes.channel_manager_channel_ready,
+			this.onChannelManagerChannelReady.bind(this),
 		);
 		ldk.onEvent(
 			EEventTypes.channel_manager_channel_closed,
@@ -1637,7 +1647,14 @@ class LightningManager {
 			tx: spendRes.value,
 		});
 	}
-
+	private onChannelManagerChannelPending(
+		res: TChannelManagerChannelPending,
+	): void {
+		console.log(`onChannelManagerChannelPending: ${JSON.stringify(res)}`);
+	}
+	private onChannelManagerChannelReady(res: TChannelManagerChannelReady): void {
+		console.log(`onChannelManagerChannelReady: ${JSON.stringify(res)}`);
+	}
 	private onChannelManagerChannelClosed(
 		res: TChannelManagerChannelClosed,
 	): void {

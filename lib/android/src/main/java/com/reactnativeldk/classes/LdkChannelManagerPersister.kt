@@ -134,6 +134,16 @@ class LdkChannelManagerPersister: ChannelManagerConstructor.EventHandler {
             return LdkEventEmitter.send(EventTypes.channel_manager_spendable_outputs, body)
         }
 
+        (event as? Event.ChannelPending)?.let { channelPending ->
+            val body = Arguments.createMap()
+            body.putString("user_channel_id", channelPending.user_channel_id.toString())
+            body.putHexString("channel_id", channelPending.channel_id)
+            body.putHexString("former_temporary_channel_id", channelPending.former_temporary_channel_id)
+            body.putHexString("counterparty_node_id", channelPending.counterparty_node_id)
+            body.putHexString("funding_txo", channelPending.funding_txo?._txid?.reversed()?.toByteArray())
+            return LdkEventEmitter.send(EventTypes.channel_manager_channel_pending, body)
+        }
+
         (event as? Event.ChannelClosed)?.let { channelClosed ->
             val body = Arguments.createMap()
             body.putString("user_channel_id", channelClosed.user_channel_id.toString())

@@ -18,6 +18,8 @@ enum EventTypes: String, CaseIterable {
     case channel_manager_payment_failed = "channel_manager_payment_failed"
     case channel_manager_pending_htlcs_forwardable = "channel_manager_pending_htlcs_forwardable"
     case channel_manager_spendable_outputs = "channel_manager_spendable_outputs"
+    case channel_manager_channel_pending = "channel_manager_channel_pending"
+    case channel_manager_channel_ready = "channel_manager_channel_ready"
     case channel_manager_channel_closed = "channel_manager_channel_closed"
     case channel_manager_discard_funding = "channel_manager_discard_funding"
     case channel_manager_payment_claimed = "channel_manager_payment_claimed"

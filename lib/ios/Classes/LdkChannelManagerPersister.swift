@@ -200,6 +200,40 @@ class LdkChannelManagerPersister: Persister, ExtendedChannelManagerPersister {
                 ]
             )
             return
+        case .ChannelPending:
+            guard let ChannelPending = event.getValueAsChannelPending() else {
+                return handleEventError(event)
+            }
+            
+            LdkEventEmitter.shared.send(
+                withEvent: .channel_manager_channel_pending,
+                body: [
+                    "user_channel_id": Data(ChannelPending.getUserChannelId()).hexEncodedString(),
+                    "channel_id": Data(ChannelPending.getChannelId()).hexEncodedString(),
+                    "former_temporary_channel_id": Data(ChannelPending.getFormerTemporaryChannelId()).hexEncodedString(),
+                    "counterparty_node_id": Data(ChannelPending.getCounterpartyNodeId()).hexEncodedString(),
+                    "funding_txo": Data(ChannelPending.getFundingTxo().getTxid()?.reversed() ?? []).hexEncodedString(),
+                ]
+            )
+            return
+
+        // case .ChannelReady:
+        //     guard let ChannelReady = event.getValueAsChannelReady() else {
+        //         return handleEventError(event)
+        //     }
+            
+        //     LdkEventEmitter.shared.send(
+        //         withEvent: .channel_manager_channel_ready,
+        //         body: [
+        //             "user_channel_id": Data(ChannelPending.getUserChannelId()).hexEncodedString(),
+        //             "channel_id": Data(ChannelPending.getChannelId()).hexEncodedString(),
+        //             "former_temporary_channel_id": Data(ChannelPending.getFormerTemporaryChannelId()).hexEncodedString(),
+        //             "counterparty_node_id": Data(ChannelPending.getCounterpartyNodeId()).hexEncodedString(),
+        //             "funding_txo": Data(ChannelPending.getFundingTxo())
+        //         ]
+        //     )
+        //     return
+
         case .ChannelClosed:
             guard let channelClosed = event.getValueAsChannelClosed() else {
                 return handleEventError(event)

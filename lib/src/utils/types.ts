@@ -27,6 +27,8 @@ export enum EEventTypes {
 	channel_manager_payment_failed = 'channel_manager_payment_failed',
 	channel_manager_pending_htlcs_forwardable = 'channel_manager_pending_htlcs_forwardable',
 	channel_manager_spendable_outputs = 'channel_manager_spendable_outputs',
+	channel_manager_channel_pending = 'channel_manager_channel_pending',
+	channel_manager_channel_ready = 'channel_manager_channel_ready',
 	channel_manager_channel_closed = 'channel_manager_channel_closed',
 	channel_manager_discard_funding = 'channel_manager_discard_funding',
 	channel_manager_payment_claimed = 'channel_manager_payment_claimed',
@@ -122,6 +124,21 @@ export type TChannelManagerPendingHtlcsForwardable = {
 
 export type TChannelManagerSpendableOutputs = {
 	outputsSerialized: string[];
+};
+
+export type TChannelManagerChannelPending = {
+	channel_id: string;
+	user_channel_id: string;
+	former_temporary_channel_id?: string;
+	counterparty_node_id: string;
+	funding_txo: string[];
+};
+
+export type TChannelManagerChannelReady = {
+	channel_id: string;
+	user_channel_id: string;
+	counterparty_node_id: string;
+	channel_type?: string;
 };
 
 export type TChannelManagerChannelClosed = {
